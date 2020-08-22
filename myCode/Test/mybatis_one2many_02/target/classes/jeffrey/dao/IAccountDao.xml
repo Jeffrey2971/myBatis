@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jeffrey.dao.IAccountDao">
+
+
+    <!--1、映射基本信息-->
+    <!--通过自定义的关系对象完成映射，定义封装account和user的resultMap-->
+    <!--查询所有账户-->
+    <resultMap id="accountUserMap" type="account">
+        <id column="aid" property="id"></id>
+        <result property="uid" column="uid"></result>
+        <result property="money" column="money"></result>
+        <!--2、通过关联对象完成封装-->
+        <!--查询所有账户，同时包含用户名和地址信息-->
+        <!--一对一的关系映射，配置封装user的内容-->
+        <association property="user" column="uid" javaType="user">
+            <id property="id" column="id"></id>
+            <result column="username" property="username"></result>
+            <result column="address" property="address"></result>
+            <result column="sex" property="sex"></result>
+            <result column="birthday" property="birthday"></result>
+        </association>
+    </resultMap>
+
+    <select id="findAccountAll" resultMap="accountUserMap">
+        select u.*, a.id as aid, a.uid, a.money from account as a, user as u where u.id = a.uid;
+    </select>
+    <select id="findAllAccount" resultMap="accountUserMap">
+        select a.*, u.username, u.address from user as u, account as a where u.id = a.uid;
+    </select>
+
+</mapper>

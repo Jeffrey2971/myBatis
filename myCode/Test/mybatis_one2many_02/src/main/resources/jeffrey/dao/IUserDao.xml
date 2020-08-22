@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jeffrey.dao.IUserDao">
+
+    <!--
+    定义一个映射，叫ResultMap
+        - id属性：表示映射的唯一表示
+        - type属性：指定一个实体类
+        - id标签：指定是主键，是数据库中唯一的标识
+        - column属性：查询出来结果的列名
+        - property属性：实体类属性
+        - result标签：除主键字段外，其他的字段
+    -->
+    <resultMap id="UserResultMap" type="user">
+        <!--id：主键，指的是数据库中表的唯一表示-->
+        <id column="xxx" property="id"></id>
+        <result column="yyy" property="username"></result>
+    </resultMap>
+
+
+    <select id="findAll" resultMap="UserResultMap">
+        select id xxx, username yyy  from user;
+    </select>
+
+    <select id="findByOne" resultType="user" parameterType="java.lang.Integer">
+        select * from user where id = #{uid}
+    </select>
+
+
+
+
+</mapper>
